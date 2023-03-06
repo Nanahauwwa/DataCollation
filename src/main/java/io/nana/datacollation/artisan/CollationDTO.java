@@ -1,4 +1,4 @@
-package io.nana.datacollation.collation;
+package io.nana.datacollation.artisan;
 
 import lombok.Data;
 
