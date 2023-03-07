@@ -1,6 +1,6 @@
 package io.nana.datacollation.artisan;
 
-import io.nana.datacollation.programme.ProgrammeModel;
+import io.nana.datacollation.programme.Programme;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -12,10 +12,11 @@ import java.util.List;
 @Data
 @Entity
 @Table( name = "artisan")
-public class ArtisanModel {
+public class Artisan {
     @Id
+    @Column(unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long artisanId;
 
     @Size(min = 5, max = 70)
     @Column( name = "name" , nullable = false)
@@ -36,14 +37,15 @@ public class ArtisanModel {
     @Length(min = 2, max = 35)
     @Column( name = "city" , nullable = false)
     private String city;
+
     @Length(min = 3, max = 35)
     @Column( name = "state" , nullable = false)
     private String state;
 
-    @OneToMany(mappedBy = "artisan")
-    private List<ProgrammeModel> programmes = List.of();
+    @OneToMany(mappedBy = "artisan", cascade = {CascadeType.ALL})
+    private List<Programme> programmes = new ArrayList<>();
 
-    public ArtisanModel() {
-        programmes = new ArrayList<ProgrammeModel>();
+    public Artisan() {
+        programmes = new ArrayList<Programme>();
     }
 }

@@ -1,6 +1,6 @@
 package io.nana.datacollation.artisan;
 
-import io.nana.datacollation.programme.ProgrammeModel;
+import io.nana.datacollation.programme.Programme;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -41,7 +41,7 @@ public class ArtisanService {
         }
         while (rowIterator.hasNext()){
             Row row = rowIterator.next();
-            ArtisanModel artisan = new ArtisanModel();
+            Artisan artisan = new Artisan();
             artisan.setFullName(row.getCell(0).getStringCellValue());
 
             if (row.getCell(5)!= null && row.getCell(5).getStringCellValue().equalsIgnoreCase("male")){
@@ -56,25 +56,34 @@ public class ArtisanService {
             artisan.setCity(row.getCell(4).getStringCellValue());
             artisan.setState(row.getCell(3).getStringCellValue());
 
-            if(row.getCell(6).getStringCellValue().split(",").length > 0) {
-                ProgrammeModel programme = null;
+            if(row.getCell(6).getStringCellValue().split(",").length > 1) {
+                Programme programme = null;
                 for (String s : row.getCell(6).getStringCellValue().split(",")) {
-                    programme = new ProgrammeModel();
+                    programme = new Programme();
                     programme.setTitle(s);
                     programme.setArtisan(artisan);
+                    artisan.getProgrammes().add(programme);
                 }
+
+            } else {
+                Programme programme = new Programme();
+                programme.setTitle(row.getCell(6).getStringCellValue());
                 artisan.getProgrammes().add(programme);
             }
 
             artisan.setTrade(row.getCell(1).getStringCellValue());
-
-                collationRepository.save(artisan);
+            collationRepository.save(artisan);
 
         }
-
     }
 
-    public List<ArtisanModel> getAllArtisanByTradeName(String trade){
-        return collationRepository.findByTrade(trade);
+    public List<Artisan> getAllArtisanByTradeName(String trade){
+        List<Artisan> artisans = collationRepository.findByTrade(trade);
+        for(Artisan s: artisans){
+            System.out.println(s);
+        }
+
+        return artisans;
+
     }
 }

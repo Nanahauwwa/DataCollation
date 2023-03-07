@@ -1,15 +1,16 @@
 package io.nana.datacollation.programme;
 
-import io.nana.datacollation.artisan.ArtisanModel;
+import io.nana.datacollation.artisan.Artisan;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+
 @Data
 @Entity
 @Table( name = "programme")
-public class ProgrammeModel {
+public class Programme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,7 +23,10 @@ public class ProgrammeModel {
     @Column(name = "description", nullable = true)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "artisan_id")
-    private ArtisanModel artisan;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "artisanId")
+    private Artisan artisan;
 }
+
+
+

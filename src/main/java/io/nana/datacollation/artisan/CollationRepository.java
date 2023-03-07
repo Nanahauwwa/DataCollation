@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CollationRepository extends JpaRepository<ArtisanModel, Long> {
-    List<ArtisanModel> findByTrade(String trade);
+public interface CollationRepository extends JpaRepository<Artisan, Long> {
+    List<Artisan> findByTrade(String trade);
 }
